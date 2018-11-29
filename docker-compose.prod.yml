@@ -11,6 +11,8 @@ services:
     image: nginx:1-alpine
     container_name: reverse_proxy
     restart: unless-stopped
+    logging:
+      driver: syslog
     ports:
       - 80:80
       - 443:443
@@ -24,6 +26,8 @@ services:
     image: jwilder/docker-gen:0.7.3
     container_name: dockergen
     restart: unless-stopped
+    logging:
+      driver: syslog
     depends_on:
       - reverse_proxy
     volumes:
@@ -40,6 +44,8 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.9.1
     container_name: letsencrypt
     restart: unless-stopped
+    logging:
+      driver: syslog
     depends_on:
       - reverse_proxy
       - dockergen
